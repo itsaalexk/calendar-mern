@@ -1,7 +1,5 @@
 .login-container{
     margin-top: 15%;
-    margin-left: 30%;
-    
 }
 .login-form-1{
     border-radius: 5px;
@@ -51,13 +49,3 @@
     font-weight: 600;
     text-decoration: none;
 }
-.p-text{
-    margin-left:250px
-}
-
-@media (max-width: 800px) {
-    .login-container{
-      
-      margin-left:5px
-    }
-  }
