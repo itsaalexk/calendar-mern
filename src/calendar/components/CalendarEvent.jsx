@@ -1,8 +1,12 @@
 
 
-export const CalendarEvent = (props) => {
-    console.log(props)
+export const CalendarEvent = ({event}) => {
+    const {title, user} = event
   return (
-    <div>CalendarEvent</div>
+    <>
+      <strong>{title}</strong>
+      <span>{user.name}</span>
+    </>
+
   )
 }
