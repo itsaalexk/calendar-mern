@@ -1,5 +1,6 @@
 import Modal from 'react-modal';
 import {useState} from "react";
+import {ModalForm} from "./ModalForm"
 
 
 
@@ -29,7 +30,7 @@ export const CalendarModal = () => {
         overlayClassName="modal-fondo"
         closeTimeMS={200}
     >
-        <h1>Hola</h1>
+      <ModalForm />
         
     </Modal>
   )
