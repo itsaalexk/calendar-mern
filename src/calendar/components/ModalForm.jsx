@@ -1,6 +1,31 @@
-import React from 'react'
+import {useState} from "react"
+import {addHours} from "date-fns"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const ModalForm = () => {
+
+
+    const [formValues , setFormValues] = useState({
+        title:"Alex",
+        notes:"Kononenko",
+        start: new Date(),
+        end: addHours( new Date(),2) //con esto se le agregan dos horas a la fecha actual
+    })
+
+    const onInputChange =({target})=>{
+        setFormValues({
+            ...formValues,
+            [target.name]: target.value
+        })
+    }
+
+    const onDateChange =(event, changing)=>{
+        setFormValues({
+            ...formValues,
+            [changing]: event
+        })
+    }
   return (
     <>
         <h1> Nuevo evento </h1>
@@ -9,12 +34,26 @@ export const ModalForm = () => {
 
         <div className="form-group mb-2">
             <label>Fecha y hora inicio</label>
-            <input className="form-control" placeholder="Fecha inicio" />
+            <DatePicker 
+                minDate={formValues.start}
+                selected={formValues.start}
+                onChange={(event)=> onDateChange(event, "start")}
+                className="form-control"
+                dateFormat ="Pp"
+                showTimeSelect
+            />
         </div>
 
         <div className="form-group mb-2">
             <label>Fecha y hora fin</label>
-            <input className="form-control" placeholder="Fecha inicio" />
+            <DatePicker 
+                minDate={formValues.start}
+                selected={formValues.end}
+                onChange={(event)=> onDateChange(event, "end")}
+                className="form-control"
+                dateFormat ="Pp"
+                showTimeSelect
+            />
         </div>
 
         <hr />
@@ -26,6 +65,8 @@ export const ModalForm = () => {
                 placeholder="Título del evento"
                 name="title"
                 autoComplete="off"
+                value ={formValues.title}
+                onChange={onInputChange}
             />
             <small id="emailHelp" className="form-text text-muted">Una descripción corta</small>
         </div>
@@ -37,6 +78,8 @@ export const ModalForm = () => {
                 placeholder="Notas"
                 rows="5"
                 name="notes"
+                value ={formValues.notes}
+                onChange={onInputChange}
             ></textarea>
             <small id="emailHelp" className="form-text text-muted">Información adicional</small>
         </div>
