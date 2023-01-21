@@ -1,6 +1,7 @@
 import Modal from 'react-modal';
 import {useState} from "react";
 import {ModalForm} from "./ModalForm"
+import { useUiStore } from "../../hooks/useUiStore";
 
 
 
@@ -18,14 +19,17 @@ const customStyles = {
 
 export const CalendarModal = () => {
 
-    const [isOpen , setIsOpen] = useState(true)
-    const onCloseModal =()=>{ setIsOpen(false)}
+
+
+    const {isDateModalOpen, closeDateModal} = useUiStore()
+  
+  
   return (
     <Modal
-        isOpen={isOpen}
-        onRequestClose={onCloseModal}
+        isOpen={isDateModalOpen}
+        onRequestClose={closeDateModal}
         style={customStyles}
-        onClose={onCloseModal}
+        onClose={closeDateModal}
         className ="modal"
         overlayClassName="modal-fondo"
         closeTimeMS={200}
