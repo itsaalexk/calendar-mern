@@ -2,8 +2,12 @@ import {useState} from "react"
 import {addHours} from "date-fns"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {registerLocale} from "react-datepicker"
+import es from 'date-fns/locale/es';
 
 export const ModalForm = () => {
+
+    registerLocale("es",es)
 
 
     const [formValues , setFormValues] = useState({
@@ -41,6 +45,7 @@ export const ModalForm = () => {
                 className="form-control"
                 dateFormat ="Pp"
                 showTimeSelect
+                locale="es"
             />
         </div>
 
@@ -53,6 +58,7 @@ export const ModalForm = () => {
                 className="form-control"
                 dateFormat ="Pp"
                 showTimeSelect
+                locale="es"
             />
         </div>
 
