@@ -6,6 +6,7 @@ import {registerLocale} from "react-datepicker"
 import es from 'date-fns/locale/es';
 
 export const ModalForm = () => {
+    console.log("este console es solo para probar fusionar diferentes ramas")
 
     registerLocale("es",es)
 
@@ -14,7 +15,7 @@ export const ModalForm = () => {
         title:"Alex",
         notes:"Kononenko",
         start: new Date(),
-        end: addHours( new Date(),2) //con esto se le agregan dos horas a la fecha actual
+        end: addHours( new Date(),2) 
     })
 
     const onInputChange =({target})=>{
