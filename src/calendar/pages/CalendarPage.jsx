@@ -8,24 +8,17 @@ import { getMessagesES} from '../../helpers/getMessagesES';
 import {CalendarEvent} from "../components/CalendarEvent";
 import {CalendarModal} from "../components/CalendarModal";
 import { useUiStore } from "../../hooks/useUiStore"
+import { useCalendarStore } from "../../hooks/useCalendarStore"
 
 
 
-const events = [{
-  title:"Cumple",
-  notes: "Comprar tarta",
-  start: new Date(),
-  end: addHours(new Date(),2),
-  bgColor: "#fafafa",
-  user:{
-    _id: "123",
-}
-}]
+
 
 
 export const CalendarPage = () => {
-  const {openDateModal} = useUiStore()
 
+  const {openDateModal} = useUiStore()
+  const {events} = useCalendarStore()
   const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "week")
 
 
