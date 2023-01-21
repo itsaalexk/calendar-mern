@@ -1,14 +1,18 @@
 import {useState} from "react"
-import {addHours} from "date-fns"
+import {addHours, differenceInSeconds} from "date-fns"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {registerLocale} from "react-datepicker"
 import es from 'date-fns/locale/es';
+import Swal from 'sweetalert2'
+
 
 export const ModalForm = () => {
-    console.log("este console es solo para probar fusionar diferentes ramas")
 
+    
     registerLocale("es",es)
+
+    const [formSubmitted, setFormSubmitted] = useState(false)
 
 
     const [formValues , setFormValues] = useState({
@@ -17,6 +21,24 @@ export const ModalForm = () => {
         start: new Date(),
         end: addHours( new Date(),2) 
     })
+
+    const onSubmit =(e)=>{
+        e.preventDefault();
+        setFormSubmitted(true)
+        const difference = differenceInSeconds(formValues.end , formValues.start)
+        if (difference <= 0) {
+          Swal.fire({
+            title: "Error",
+            text: 'Finish date cannot be inferior of start date',
+            icon:'error'
+          })
+        } else if (isNaN(difference)){ Swal.fire({
+            title:'Error',
+            text:'Please input a date',
+            icon:'error'
+        })}
+
+    }
 
     const onInputChange =({target})=>{
         setFormValues({
@@ -33,9 +55,10 @@ export const ModalForm = () => {
     }
   return (
     <>
+       
         <h1> Nuevo evento </h1>
     <hr />
-    <form className="container">
+    <form className="container" onSubmit={onSubmit}>
 
         <div className="form-group mb-2">
             <label>Fecha y hora inicio</label>
@@ -47,6 +70,7 @@ export const ModalForm = () => {
                 dateFormat ="Pp"
                 showTimeSelect
                 locale="es"
+                timeCaption="Hora"
             />
         </div>
 
@@ -60,6 +84,7 @@ export const ModalForm = () => {
                 dateFormat ="Pp"
                 showTimeSelect
                 locale="es"
+                timeCaption="Hora"
             />
         </div>
 
