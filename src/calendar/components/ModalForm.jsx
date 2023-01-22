@@ -1,25 +1,28 @@
-import {useMemo, useState} from "react"
+import {useEffect, useMemo, useState} from "react"
 import {addHours, differenceInSeconds} from "date-fns"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {registerLocale} from "react-datepicker"
 import es from 'date-fns/locale/es';
 import Swal from 'sweetalert2'
+import { useCalendarStore } from "../../hooks/useCalendarStore";
+import { useSelector } from "react-redux";
 
 
 
 
 export const ModalForm = () => {
 
-    
+  
 
+    
     registerLocale("es",es)
 
-    
+    const {activeEvent} = useCalendarStore()
     const [formSubmitted, setFormSubmitted] = useState(false)
     const [formValues , setFormValues] = useState({
-        title:"Alex",
-        notes:"Kononenko",
+        title:"",
+        notes:"",
         start: new Date(),
         end: addHours( new Date(),2) 
     })
@@ -31,6 +34,13 @@ export const ModalForm = () => {
         : "is-invalid"
 
     },[formValues.title, formSubmitted])
+
+    useEffect(()=>{
+        if(activeEvent !==null){
+            setFormValues({...activeEvent})
+        }
+
+    },[activeEvent])
 
     const onSubmit =(e)=>{
         e.preventDefault();
@@ -68,7 +78,7 @@ export const ModalForm = () => {
   return (
     <>
        
-        <h1> Nuevo evento </h1>
+        <h1> {activeEvent.title} </h1>
     <hr />
     <form className="container" onSubmit={onSubmit}>
 

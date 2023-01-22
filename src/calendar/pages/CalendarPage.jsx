@@ -1,7 +1,6 @@
 import {useState} from "react"
 import { Calendar,  } from 'react-big-calendar'
 import { Navbar } from "../components/Navbar"
-import { addHours } from 'date-fns'
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import { localizer } from '../../helpers/calendarLocalizer'
 import { getMessagesES} from '../../helpers/getMessagesES';
@@ -18,7 +17,7 @@ import { useCalendarStore } from "../../hooks/useCalendarStore"
 export const CalendarPage = () => {
 
   const {openDateModal} = useUiStore()
-  const {events} = useCalendarStore()
+  const {events, setActiveEvent} = useCalendarStore()
   const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "week")
 
 
@@ -38,30 +37,31 @@ export const CalendarPage = () => {
     openDateModal()
   }
   const onSelect =(event)=>{
-    console.log("OnSelect",event)
+    setActiveEvent(event)
+    console.log(event)
   }
   const onViewChange = (event)=>{
     localStorage.setItem("lastView", event) }
   return (
     <>
     <Navbar />
-    <Calendar
-      culture = "es"
-      localizer={localizer}
-      events={events}
-      defaultView={lastView}
-      startAccessor="start"
-      endAccessor="end"
-      style={{ height:"90vh"}}
-      messages={getMessagesES}
-      eventPropsGetter ={eventStyleGetter}
-      components={{
-        event:CalendarEvent
-      }}
-      onDoubleClickEvent ={onDoubleClick}
-      onSelectEvent = {onSelect}
-      onView={onViewChange}
-    />
+      <Calendar
+        culture = "es"
+        localizer={localizer}
+        events={events}
+        defaultView={lastView}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height:"90vh"}}
+        messages={getMessagesES}
+        eventPropsGetter ={eventStyleGetter}
+        components={{
+          event:CalendarEvent
+        }}
+        onDoubleClickEvent ={onDoubleClick}
+        onSelectEvent = {onSelect}
+        onView={onViewChange}
+      />
     <CalendarModal/>
     </>
 
