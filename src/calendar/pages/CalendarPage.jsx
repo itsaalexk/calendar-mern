@@ -8,6 +8,8 @@ import {CalendarEvent} from "../components/CalendarEvent";
 import {CalendarModal} from "../components/CalendarModal";
 import { useUiStore } from "../../hooks/useUiStore"
 import { useCalendarStore } from "../../hooks/useCalendarStore"
+import { Fab } from "../components/Fab"
+
 
 
 
@@ -63,6 +65,7 @@ export const CalendarPage = () => {
         onView={onViewChange}
       />
     <CalendarModal/>
+      <Fab/>
     </>
 
   )
