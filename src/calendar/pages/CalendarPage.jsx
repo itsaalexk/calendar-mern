@@ -65,6 +65,7 @@ export const CalendarPage = () => {
         onView={onViewChange}
       />
     <CalendarModal/>
+    
       <Fab/>
     </>
 

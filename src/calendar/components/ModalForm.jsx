@@ -6,7 +6,8 @@ import {registerLocale} from "react-datepicker"
 import es from 'date-fns/locale/es';
 import Swal from 'sweetalert2'
 import { useCalendarStore } from "../../hooks/useCalendarStore";
-import { useSelector } from "react-redux";
+import { useUiStore } from "../../hooks/useUiStore";
+
 
 
 
@@ -14,11 +15,11 @@ import { useSelector } from "react-redux";
 export const ModalForm = () => {
 
   
-
     
     registerLocale("es",es)
 
-    const {activeEvent} = useCalendarStore()
+    const {activeEvent, startSavingEvent} = useCalendarStore()
+    const {closeDateModal} = useUiStore()
     const [formSubmitted, setFormSubmitted] = useState(false)
     const [formValues , setFormValues] = useState({
         title:"",
@@ -42,24 +43,19 @@ export const ModalForm = () => {
 
     },[activeEvent])
 
-    const onSubmit =(e)=>{
+    const onSubmit = async(e)=>{
         e.preventDefault();
         setFormSubmitted(true)
-
+        
         const difference = differenceInSeconds(formValues.end , formValues.start)
         
-        if (difference <= 0) {
-          Swal.fire({
-            title: "Error",
-            text: 'Finish date cannot be inferior of start date',
-            icon:'error'
-          })
-        } else if (isNaN(difference)){ Swal.fire({
-            title:'Error',
-            text:'Please input a date',
-            icon:'error'
-        })}
-
+        if(isNaN(difference) || difference <=0){
+            Swal.fire('Fechas Incorrectas', 'Por favor revisa las fechas ingresadas', 'error')
+            return;
+        }
+        await startSavingEvent(formValues)
+        closeDateModal()
+        
     }
 
     const onInputChange =({target})=>{
@@ -78,7 +74,7 @@ export const ModalForm = () => {
   return (
     <>
        
-        <h1> {activeEvent.title} </h1>
+        <h1> Nuevo Evento </h1>
     <hr />
     <form className="container" onSubmit={onSubmit}>
 
@@ -141,6 +137,7 @@ export const ModalForm = () => {
         <button
             type="submit"
             className="btn btn-outline-primary btn-block"
+            
         >
             <i className="far fa-save"></i>
             <span> Guardar</span>
