@@ -1,73 +1,81 @@
-import {useState} from "react"
-import { Calendar,  } from 'react-big-calendar'
-import { Navbar } from "../components/Navbar"
-import "react-big-calendar/lib/css/react-big-calendar.css"
-import { localizer } from '../../helpers/calendarLocalizer'
-import { getMessagesES} from '../../helpers/getMessagesES';
-import {CalendarEvent} from "../components/CalendarEvent";
-import {CalendarModal} from "../components/CalendarModal";
-import { useUiStore } from "../../hooks/useUiStore"
-import { useCalendarStore } from "../../hooks/useCalendarStore"
-import { Fab } from "../components/Fab"
+import { useState } from 'react';
+import { Calendar } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
+import { Navbar, CalendarEvent, CalendarModal, FabAddNew, FabDelete} from '../';
 
-
-
+import { localizer, getMessagesES } from '../../helpers';
+import { useUiStore, useCalendarStore } from '../../hooks';
 
 
 
 export const CalendarPage = () => {
 
-  const {openDateModal} = useUiStore()
-  const {events, setActiveEvent} = useCalendarStore()
-  const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "week")
+  const { openDateModal } = useUiStore();
+  const { events, setActiveEvent } = useCalendarStore();
 
+  const [ lastView, setLastView ] = useState(localStorage.getItem('lastView') || 'week' );
 
-  const eventStyleGetter = (event, start, end, isSelected) =>{
-     
+  const eventStyleGetter = ( event, start, end, isSelected ) => {
 
-      const style = {
-        backgroundColor: "#FF5733",
-        borderRadius: "0px",
-        opacity: 0.8,
-        color: "white"
-      }
+    const style = {
+      backgroundColor: '#347CF7',
+      borderRadius: '0px',
+      opacity: 0.8,
+      color: 'white'
+    }
 
-      return {style}
+    return {
+      style
+    }
   }
-  const onDoubleClick =(event)=>{
-    openDateModal()
+
+  const onDoubleClick = ( event ) => {
+    // console.log({ doubleClick: event });
+    openDateModal();
   }
-  const onSelect =(event)=>{
-    setActiveEvent(event)
-    console.log(event)
+
+  const onSelect = ( event ) => {
+    // console.log({ click: event });
+    setActiveEvent( event );
   }
-  const onViewChange = (event)=>{
-    localStorage.setItem("lastView", event) }
+
+  const onViewChanged = ( event ) => {
+    localStorage.setItem('lastView', event );
+    setLastView( event )
+  }
+
+
+
   return (
     <>
-    <Navbar />
+      <Navbar />
+
       <Calendar
-        culture = "es"
-        localizer={localizer}
-        events={events}
-        defaultView={lastView}
+        culture='es'
+        localizer={ localizer }
+        events={ events }
+        defaultView={ lastView }
         startAccessor="start"
         endAccessor="end"
-        style={{ height:"90vh"}}
-        messages={getMessagesES}
-        eventPropsGetter ={eventStyleGetter}
+        style={{ height: 'calc( 100vh - 80px )' }}
+        messages={ getMessagesES() }
+        eventPropGetter={ eventStyleGetter }
         components={{
-          event:CalendarEvent
+          event: CalendarEvent
         }}
-        onDoubleClickEvent ={onDoubleClick}
-        onSelectEvent = {onSelect}
-        onView={onViewChange}
+        onDoubleClickEvent={ onDoubleClick }
+        onSelectEvent={ onSelect }
+        onView={ onViewChanged }
       />
-    <CalendarModal/>
-    
-      <Fab/>
-    </>
 
+
+      <CalendarModal />
+      
+      <FabAddNew />
+      <FabDelete />
+
+
+    </>
   )
 }
