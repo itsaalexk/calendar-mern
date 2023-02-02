@@ -1,6 +1,4 @@
 {
-    "tsimporter.disabled": true,
-    "tsimporter.filesToExclude": [
-    
-    ]
+	"tsimporter.disabled": true,
+	"tsimporter.filesToExclude": []
 }
